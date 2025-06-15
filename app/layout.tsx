@@ -5,6 +5,7 @@ import "./globals.css"
 import { Providers } from "./providers"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@vercel/analytics/next"
+import { I18nProvider } from "@/components/i18n-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          {children}
-          <Toaster />
-          <Analytics />
-        </Providers>
+        <I18nProvider>
+          <Providers>
+            {children}
+            <Toaster />
+            <Analytics />
+          </Providers>
+        </I18nProvider>
       </body>
     </html>
   )

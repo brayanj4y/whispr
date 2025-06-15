@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Copy, Send, Clock, Flame, ArrowLeft } from "lucide-react"
+import { Copy, Send, Clock, Flame } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 
@@ -78,20 +78,12 @@ export default function CreateSecret() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="mb-6 flex items-center gap-4">
-        <Link href="/dashboard/secrets">
-          <Button variant="outline" size="sm" className="font-mono text-xs">
-            <ArrowLeft className="w-3 h-3 mr-1" />
-            Back to Secrets
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
-            <Flame className="w-6 h-6" />
-            Create Secret Message
-          </h1>
-          <p className="text-sm text-gray-600 font-mono">Create a self-destructing message that burns after reading</p>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
+          <Flame className="w-6 h-6" />
+          Create Secret Message
+        </h1>
+        <p className="text-sm text-gray-600 font-mono">Create a self-destructing message that burns after reading</p>
       </div>
 
       {!secretUrl ? (
@@ -120,7 +112,7 @@ export default function CreateSecret() {
             </div>
 
             <div>
-              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2 flex items-center gap-2">
+              <label className="text-sm font-mono font-semibold text-gray-700 mb-2 flex items-center gap-2">
                 <Clock className="w-4 h-4" />
                 Auto-Delete Timer
               </label>

@@ -1,0 +1,42 @@
+{
+  "greeting": "Bonjour",
+  "welcome": "Bienvenue sur Whispr",
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "ngl_messages": "Messages NGL",
+    "secret_messages": "Messages secrets",
+    "create_secret": "Créer un secret",
+    "settings": "Paramètres"
+  },
+  "auth": {
+    "sign_in": "Se connecter",
+    "sign_out": "Se déconnecter",
+    "sign_in_with_google": "Continuer avec Google"
+  },
+  "dashboard": {
+    "welcome_back": "Bon retour",
+    "manage_messages": "Gérez vos messages anonymes et secrets"
+  },
+  "ngl": {
+    "send_anonymous": "Envoyer un message anonyme",
+    "your_message": "Votre message anonyme",
+    "message_sent": "Message envoyé !",
+    "message_delivered": "Votre message anonyme a été livré"
+  },
+  "secrets": {
+    "create_secret": "Créer un message secret",
+    "compose_secret": "Composez votre secret",
+    "secret_created": "Secret créé avec succès !",
+    "share_carefully": "Partagez ce lien avec précaution. Il ne peut être ouvert qu'une seule fois."
+  },
+  "common": {
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "copy": "Copier",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès"
+  }
+} 

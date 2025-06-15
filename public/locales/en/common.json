@@ -287,6 +287,26 @@
     "ok": "OK",
     "new": "new"
   },
+  "toast": {
+    "mark_as_read": "Marked as read",
+    "mark_as_unread": "Marked as unread", 
+    "message_status_updated": "Message status updated successfully.",
+    "message_deleted": "Message deleted",
+    "message_deleted_desc": "The message has been permanently deleted.",
+    "secret_deleted": "Secret deleted",
+    "secret_deleted_desc": "The secret has been permanently deleted.",
+    "secret_link_copied": "Secret link copied to clipboard.",
+    "copy_link_failed": "Please copy the link manually.",
+    "update_message_failed": "Failed to update message status.",
+    "delete_message_failed": "Failed to delete message.",
+    "delete_secret_failed": "Failed to delete secret."
+  },
+  "ngl_buttons": {
+    "mark_read": "Mark Read",
+    "mark_unread": "Mark Unread",
+    "anonymous_message": "Anonymous Message",
+    "new": "New"
+  },
   "sidebar": {
     "navigation": "Navigation",
     "quick_actions": "Quick Actions"
@@ -298,7 +318,8 @@
     "days_ago": "{count}d ago",
     "minutes_left": "{count}m left",
     "hours_left": "{count}h left",
-    "days_left": "{count}d left"
+    "days_left": "{count}d left",
+    "expired": "Expired"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

@@ -53,14 +53,14 @@ export default function NglMessages() {
       if (response.ok) {
         setMessages(messages.map((msg) => (msg.id === messageId ? { ...msg, is_read: !currentStatus } : msg)))
         toast({
-          title: !currentStatus ? "Marked as read" : "Marked as unread",
-          description: "Message status updated successfully.",
+          title: !currentStatus ? t('toast.mark_as_read') : t('toast.mark_as_unread'),
+          description: t('toast.message_status_updated'),
         })
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update message status.",
+        title: t('common.error'),
+        description: t('toast.update_message_failed'),
         variant: "destructive",
       })
     }
@@ -75,14 +75,14 @@ export default function NglMessages() {
       if (response.ok) {
         setMessages(messages.filter((msg) => msg.id !== messageId))
         toast({
-          title: "Message deleted",
-          description: "The message has been permanently deleted.",
+          title: t('toast.message_deleted'),
+          description: t('toast.message_deleted_desc'),
         })
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete message.",
+        title: t('common.error'),
+        description: t('toast.delete_message_failed'),
         variant: "destructive",
       })
     }
@@ -151,10 +151,10 @@ export default function NglMessages() {
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-sm font-mono text-gray-800 flex items-center gap-2">
                     <MessageSquare className="w-4 h-4" />
-                    Anonymous Message
+                    {t('ngl_buttons.anonymous_message')}
                     {!message.is_read && (
                       <Badge variant="destructive" className="text-xs">
-                        New
+                        {t('ngl_buttons.new')}
                       </Badge>
                     )}
                   </CardTitle>
@@ -182,12 +182,12 @@ export default function NglMessages() {
                       {message.is_read ? (
                         <>
                           <EyeOff className="w-3 h-3 mr-1" />
-                          Mark Unread
+                          {t('ngl_buttons.mark_unread')}
                         </>
                       ) : (
                         <>
                           <Eye className="w-3 h-3 mr-1" />
-                          Mark Read
+                          {t('ngl_buttons.mark_read')}
                         </>
                       )}
                     </Button>
@@ -200,7 +200,7 @@ export default function NglMessages() {
                     className="font-mono text-xs"
                   >
                     <Trash2 className="w-3 h-3 mr-1" />
-                    Delete
+                    {t('common.delete')}
                   </Button>
                 </div>
               </CardContent>

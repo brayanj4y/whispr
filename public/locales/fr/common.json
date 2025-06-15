@@ -287,6 +287,26 @@
     "ok": "OK",
     "new": "nouveau"
   },
+  "toast": {
+    "mark_as_read": "Marqué comme lu",
+    "mark_as_unread": "Marqué comme non lu", 
+    "message_status_updated": "Statut du message mis à jour avec succès.",
+    "message_deleted": "Message supprimé",
+    "message_deleted_desc": "Le message a été définitivement supprimé.",
+    "secret_deleted": "Secret supprimé",
+    "secret_deleted_desc": "Le secret a été définitivement supprimé.",
+    "secret_link_copied": "Lien secret copié dans le presse-papiers.",
+    "copy_link_failed": "Veuillez copier le lien manuellement.",
+    "update_message_failed": "Échec de la mise à jour du statut du message.",
+    "delete_message_failed": "Échec de la suppression du message.",
+    "delete_secret_failed": "Échec de la suppression du secret."
+  },
+  "ngl_buttons": {
+    "mark_read": "Marquer comme Lu",
+    "mark_unread": "Marquer comme Non Lu",
+    "anonymous_message": "Message Anonyme",
+    "new": "Nouveau"
+  },
   "sidebar": {
     "navigation": "Navigation",
     "quick_actions": "Actions Rapides"
@@ -298,7 +318,8 @@
     "days_ago": "il y a {count}j",
     "minutes_left": "{count}min restant",
     "hours_left": "{count}h restant",
-    "days_left": "{count}j restant"
+    "days_left": "{count}j restant",
+    "expired": "Expiré"
   },
   "errors": {
     "generic": "Quelque chose s'est mal passé. Veuillez réessayer.",

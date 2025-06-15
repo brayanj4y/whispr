@@ -51,14 +51,14 @@ export default function SecretMessages() {
       if (response.ok) {
         setSecrets(secrets.filter((secret) => secret.id !== secretId))
         toast({
-          title: "Secret deleted",
-          description: "The secret has been permanently deleted.",
+          title: t('toast.secret_deleted'),
+          description: t('toast.secret_deleted_desc'),
         })
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete secret.",
+        title: t('common.error'),
+        description: t('toast.delete_secret_failed'),
         variant: "destructive",
       })
     }
@@ -69,13 +69,13 @@ export default function SecretMessages() {
     try {
       await navigator.clipboard.writeText(url)
       toast({
-        title: "Copied!",
-        description: "Secret link copied to clipboard.",
+        title: t('common.copied'),
+        description: t('toast.secret_link_copied'),
       })
     } catch (error) {
       toast({
-        title: "Copy failed",
-        description: "Please copy the link manually.",
+        title: t('common.copy_failed'),
+        description: t('toast.copy_link_failed'),
         variant: "destructive",
       })
     }

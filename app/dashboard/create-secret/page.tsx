@@ -81,10 +81,10 @@ export default function CreateSecret() {
     <div className="space-y-4">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
-          <Flame className="w-6 h-6" />
+          <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
+            <Flame className="w-6 h-6" />
           {t('secrets.create_secret')}
-        </h1>
+          </h1>
         <p className="text-sm text-gray-600 font-mono">{t('secrets.create_secret_desc')}</p>
       </div>
 

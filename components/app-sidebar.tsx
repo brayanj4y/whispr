@@ -66,13 +66,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu>
               {quickActionItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild>
                     <Link href={typeof item.url === 'function' ? item.url(session?.user?.username || '') : item.url} className="text-xs font-mono">
                       <item.icon className="w-3 h-3" />
                       <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>

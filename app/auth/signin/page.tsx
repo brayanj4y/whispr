@@ -3,6 +3,7 @@
 import { signIn, getSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Flame, Chrome } from "lucide-react"
@@ -10,6 +11,7 @@ import { Flame, Chrome } from "lucide-react"
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { t } = useTranslation()
 
   useEffect(() => {
     const checkSession = async () => {
@@ -44,7 +46,7 @@ export default function SignIn() {
             <Flame className="w-6 h-6 text-orange-600" />
           </div>
           <CardDescription className="font-mono text-gray-600 text-sm">
-            Sign in to access your secret messages and NGL inbox
+            {t('auth.signin_description')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -56,19 +58,19 @@ export default function SignIn() {
             {isLoading ? (
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 border-2 border-gray-600 border-t-transparent rounded-full animate-spin" />
-                Signing in...
+                {t('auth.signing_in')}
               </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Chrome className="w-4 h-4" />
-                Continue with Google
+                {t('auth.continue_with_google')}
               </div>
             )}
           </Button>
 
           <div className="text-center">
             <p className="text-xs text-gray-500 font-mono">
-              Secure authentication • Anonymous messaging • Self-destructing secrets
+              {t('auth.signin_features')}
             </p>
           </div>
         </CardContent>

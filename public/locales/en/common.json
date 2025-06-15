@@ -15,10 +15,14 @@
   "auth": {
     "sign_in": "Sign In",
     "sign_out": "Sign Out",
-    "sign_in_with_google": "Continue with Google",
+    "sign_in_with_google": "Sign in with Google",
     "signed_in_as": "Signed in as",
     "account_status": "Account Status",
-    "logout": "Logout"
+    "logout": "Logout",
+    "signin_description": "Sign in to access your secret messages and NGL inbox",
+    "signing_in": "Signing in...",
+    "continue_with_google": "Continue with Google",
+    "signin_features": "Secure authentication • Anonymous messaging • Self-destructing secrets"
   },
   "landing": {
     "tagline": "Anonymous messaging • Self-destructing secrets",
@@ -125,7 +129,22 @@
     "empty_message": "Empty message",
     "empty_message_desc": "Please enter a secret message first.",
     "create_error": "Failed to create secret message. Please try again.",
-    "link_copied": "Secret link copied to clipboard."
+    "link_copied": "Secret link copied to clipboard.",
+    "your_secret_messages": "Your Secret Messages",
+    "self_destructing_secrets_created": "Self-destructing secrets you've created",
+    "total": "Total",
+    "create_new_secret": "Create New Secret",
+    "no_secrets_created_yet": "No secrets created yet",
+    "create_first_secret_message": "Create your first self-destructing secret message!",
+    "create_your_first_secret": "Create Your First Secret",
+    "secret_message": "Secret Message",
+    "read_destroyed": "Read & Destroyed",
+    "expired": "Expired",
+    "active": "Active",
+    "created": "Created",
+    "secret_read_destroyed": "This secret has been read and destroyed",
+    "copy_link": "Copy Link",
+    "delete": "Delete"
   },
   "secret_page": {
     "waiting": "Secret Message Waiting",

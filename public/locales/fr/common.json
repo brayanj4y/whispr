@@ -15,10 +15,14 @@
   "auth": {
     "sign_in": "Se connecter",
     "sign_out": "Se déconnecter",
-    "sign_in_with_google": "Continuer avec Google",
+    "sign_in_with_google": "Se connecter avec Google",
     "signed_in_as": "Connecté en tant que",
     "account_status": "Statut du compte",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "signin_description": "Connectez-vous pour accéder à vos messages secrets et votre boîte NGL",
+    "signing_in": "Connexion en cours...",
+    "continue_with_google": "Continuer avec Google",
+    "signin_features": "Authentification sécurisée • Messages anonymes • Secrets auto-destructeurs"
   },
   "landing": {
     "tagline": "Messages anonymes • Secrets auto-destructeurs",
@@ -125,7 +129,22 @@
     "empty_message": "Message vide",
     "empty_message_desc": "Veuillez d'abord entrer un message secret.",
     "create_error": "Échec de la création du message secret. Veuillez réessayer.",
-    "link_copied": "Lien secret copié dans le presse-papiers."
+    "link_copied": "Lien secret copié dans le presse-papiers.",
+    "your_secret_messages": "Vos Messages Secrets",
+    "self_destructing_secrets_created": "Secrets auto-destructeurs que vous avez créés",
+    "total": "Total",
+    "create_new_secret": "Créer Nouveau Secret",
+    "no_secrets_created_yet": "Aucun secret créé pour le moment",
+    "create_first_secret_message": "Créez votre premier message secret qui s'auto-détruit !",
+    "create_your_first_secret": "Créer Votre Premier Secret",
+    "secret_message": "Message Secret",
+    "read_destroyed": "Lu et Détruit",
+    "expired": "Expiré",
+    "active": "Actif",
+    "created": "Créé",
+    "secret_read_destroyed": "Ce secret a été lu et détruit",
+    "copy_link": "Copier le Lien",
+    "delete": "Supprimer"
   },
   "secret_page": {
     "waiting": "Message Secret en Attente",

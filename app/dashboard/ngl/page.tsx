@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -18,6 +19,7 @@ interface NglMessage {
 
 export default function NglMessages() {
   const { data: session } = useSession()
+  const { t } = useTranslation()
   const [messages, setMessages] = useState<NglMessage[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
@@ -111,7 +113,7 @@ export default function NglMessages() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
           <MessageSquare className="w-6 h-6" />
-          Your Anonymous Messages
+          Your {t('navigation.ngl_messages')}
         </h1>
         <p className="text-sm text-gray-600 font-mono">
           Messages sent anonymously to your NGL link • Total: {messages.length}

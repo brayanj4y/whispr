@@ -1,6 +1,6 @@
 "use client"
 
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
-import { Settings, User, LinkIcon, Shield, Trash2, Copy, Check } from "lucide-react"
+import { Settings, User, LinkIcon, Shield, Trash2, Copy, Check, LogOut } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 interface UserProfile {
@@ -478,6 +478,18 @@ export default function ProfileSettings() {
                 <div className="w-2 h-2 bg-orange-500 rounded-full" />
                 <span className="text-sm font-mono text-gray-700">NGL Enabled</span>
               </div>
+              
+              <Separator />
+              
+              <Button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                variant="outline"
+                size="sm"
+                className="w-full font-mono text-xs border-2 border-gray-300 hover:bg-gray-50"
+              >
+                <LogOut className="w-3 h-3 mr-1" />
+                Sign Out
+              </Button>
             </CardContent>
           </Card>
 

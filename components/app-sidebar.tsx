@@ -20,35 +20,8 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Flame, MessageSquare, Lock, Plus, Inbox, Send, LogOut, Settings } from "lucide-react"
-
-const menuItems = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: Inbox,
-  },
-  {
-    title: "NGL Messages",
-    url: "/dashboard/ngl",
-    icon: MessageSquare,
-  },
-  {
-    title: "Secret Messages",
-    url: "/dashboard/secrets",
-    icon: Lock,
-  },
-  {
-    title: "Create Secret",
-    url: "/dashboard/create-secret",
-    icon: Plus,
-  },
-  {
-    title: "Settings",
-    url: "/dashboard/settings",
-    icon: Settings,
-  },
-]
+import { Flame, LogOut } from "lucide-react"
+import { navigationItems, quickActionItems } from "@/lib/navigation"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession()
@@ -68,7 +41,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupLabel className="text-xs font-mono">Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
                     <Link href={item.url} className="text-xs font-mono">
@@ -86,14 +59,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupLabel className="text-xs font-mono">Quick Actions</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href={`/ngl/${session?.user?.username}`} className="text-xs font-mono">
-                    <Send className="w-3 h-3" />
-                    <span>My NGL Link</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {quickActionItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={typeof item.url === 'function' ? item.url(session?.user?.username || '') : item.url} className="text-xs font-mono">
+                      <item.icon className="w-3 h-3" />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

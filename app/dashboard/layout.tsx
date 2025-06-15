@@ -4,6 +4,7 @@ import type React from "react"
 
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
+import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 
 export default function DashboardLayout({
   children,
@@ -17,9 +18,11 @@ export default function DashboardLayout({
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <div className="p-4">{children}</div>
+          <div className="p-4 pb-20 md:pb-4">{children}</div>
         </SidebarInset>
       </SidebarProvider>
+      
+      <MobileBottomNav />
     </div>
   )
 }

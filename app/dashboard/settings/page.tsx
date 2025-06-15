@@ -2,6 +2,7 @@
 
 import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -31,6 +32,7 @@ interface UserStats {
 
 export default function ProfileSettings() {
   const { data: session, update } = useSession()
+  const { t } = useTranslation()
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [stats, setStats] = useState<UserStats>({ nglCount: 0, secretCount: 0, totalViews: 0 })
   const [isLoading, setIsLoading] = useState(true)
@@ -119,8 +121,8 @@ export default function ProfileSettings() {
   const saveProfile = async () => {
     if (!formData.name.trim()) {
       toast({
-        title: "Name required",
-        description: "Please enter your display name.",
+        title: t('settings.name_required'),
+        description: t('settings.name_required_desc'),
         variant: "destructive",
       })
       return
@@ -128,8 +130,8 @@ export default function ProfileSettings() {
 
     if (!formData.username.trim() || formData.username.length < 3) {
       toast({
-        title: "Invalid username",
-        description: "Username must be at least 3 characters long.",
+        title: t('settings.invalid_username'),
+        description: t('settings.invalid_username_desc'),
         variant: "destructive",
       })
       return
@@ -137,8 +139,8 @@ export default function ProfileSettings() {
 
     if (usernameAvailable === false) {
       toast({
-        title: "Username unavailable",
-        description: "This username is already taken. Please choose another.",
+        title: t('settings.username_unavailable'),
+        description: t('settings.username_unavailable_desc'),
         variant: "destructive",
       })
       return
@@ -166,12 +168,12 @@ export default function ProfileSettings() {
       }
 
       toast({
-        title: "Profile updated",
-        description: "Your profile has been saved successfully.",
+        title: t('settings.profile_updated'),
+        description: t('settings.profile_updated_desc'),
       })
     } catch (error) {
       toast({
-        title: "Error",
+        title: t('common.error'),
         description: error instanceof Error ? error.message : "Failed to update profile.",
         variant: "destructive",
       })
@@ -187,20 +189,20 @@ export default function ProfileSettings() {
       setLinkCopied(true)
       setTimeout(() => setLinkCopied(false), 2000)
       toast({
-        title: "Copied!",
-        description: "Your NGL link has been copied to clipboard.",
+        title: t('settings.link_copied'),
+        description: t('dashboard.copy_link'),
       })
     } catch (error) {
       toast({
-        title: "Copy failed",
-        description: "Please copy the link manually.",
+        title: t('settings.link_copy_failed'),
+        description: t('common.try_again'),
         variant: "destructive",
       })
     }
   }
 
   const deleteAccount = async () => {
-    if (!confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+    if (!confirm(t('settings.delete_account_confirm'))) {
       return
     }
 
@@ -211,16 +213,16 @@ export default function ProfileSettings() {
 
       if (response.ok) {
         toast({
-          title: "Account deleted",
-          description: "Your account has been permanently deleted.",
+          title: t('settings.account_deleted'),
+          description: t('settings.account_deleted_desc'),
         })
         // Redirect to sign out
         window.location.href = "/api/auth/signout"
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete account. Please try again.",
+        title: t('common.error'),
+        description: t('settings.delete_account_error'),
         variant: "destructive",
       })
     }
@@ -245,7 +247,7 @@ export default function ProfileSettings() {
   if (!profile) {
     return (
       <div className="text-center py-8">
-        <p className="text-sm font-mono text-gray-600">Failed to load profile. Please try again.</p>
+        <p className="text-sm font-mono text-gray-600">{t('settings.failed_to_load')}</p>
       </div>
     )
   }
@@ -256,9 +258,9 @@ export default function ProfileSettings() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
           <Settings className="w-6 h-6" />
-          Profile Settings
+          {t('settings.profile_settings')}
         </h1>
-        <p className="text-sm text-gray-600 font-mono">Manage your account and customize your Whispr experience</p>
+        <p className="text-sm text-gray-600 font-mono">{t('settings.profile_settings_desc')}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -268,7 +270,7 @@ export default function ProfileSettings() {
             <CardHeader>
               <CardTitle className="text-lg font-mono text-gray-800 flex items-center gap-2">
                 <User className="w-5 h-5" />
-                Profile Information
+                {t('settings.profile_info')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -278,9 +280,9 @@ export default function ProfileSettings() {
                   <AvatarFallback className="text-lg">{profile.name?.charAt(0) || "U"}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-sm font-mono text-gray-500">Google Account</p>
+                  <p className="text-sm font-mono text-gray-500">{t('settings.google_account')}</p>
                   <p className="text-sm font-mono text-gray-800">{profile.email}</p>
-                  <p className="text-xs font-mono text-gray-500">Joined {formatDate(profile.created_at)}</p>
+                  <p className="text-xs font-mono text-gray-500">{t('settings.joined')} {formatDate(profile.created_at)}</p>
                 </div>
               </div>
 
@@ -289,22 +291,22 @@ export default function ProfileSettings() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="name" className="text-sm font-mono font-semibold text-gray-700">
-                    Display Name
+                    {t('settings.display_name')}
                   </Label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="font-mono text-sm bg-white border-2 border-gray-200 focus:border-orange-400"
-                    placeholder="Your display name"
+                    placeholder={t('settings.display_name_placeholder')}
                     maxLength={50}
                   />
-                  <p className="text-xs text-gray-500 font-mono mt-1">This is how others will see your name</p>
+                  <p className="text-xs text-gray-500 font-mono mt-1">{t('settings.display_name_desc')}</p>
                 </div>
 
                 <div>
                   <Label htmlFor="username" className="text-sm font-mono font-semibold text-gray-700">
-                    Username
+                    {t('settings.username')}
                   </Label>
                   <div className="relative">
                     <Input
@@ -312,7 +314,7 @@ export default function ProfileSettings() {
                       value={formData.username}
                       onChange={(e) => handleUsernameChange(e.target.value)}
                       className="font-mono text-sm bg-white border-2 border-gray-200 focus:border-orange-400 pr-8"
-                      placeholder="your_username"
+                      placeholder={t('settings.username_placeholder')}
                       maxLength={30}
                     />
                     <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
@@ -328,10 +330,10 @@ export default function ProfileSettings() {
                   <div className="flex items-center justify-between mt-1">
                     <p className="text-xs text-gray-500 font-mono">
                       {usernameAvailable === false
-                        ? "Username not available"
+                        ? t('settings.username_not_available')
                         : usernameAvailable === true
-                          ? "Username available"
-                          : "Lowercase letters, numbers, and underscores only"}
+                          ? t('settings.username_available')
+                          : t('settings.username_desc')}
                     </p>
                     <span className="text-xs text-gray-400 font-mono">{formData.username.length}/30</span>
                   </div>
@@ -346,10 +348,10 @@ export default function ProfileSettings() {
                 {isSaving ? (
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Saving...
+                    {t('settings.saving')}
                   </div>
                 ) : (
-                  "Save Changes"
+                  t('settings.save_changes')
                 )}
               </Button>
             </CardContent>
@@ -360,12 +362,12 @@ export default function ProfileSettings() {
             <CardHeader>
               <CardTitle className="text-lg font-mono text-gray-800 flex items-center gap-2">
                 <LinkIcon className="w-5 h-5" />
-                Your NGL Link
+                {t('settings.your_ngl_link')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="bg-white border-2 border-blue-200 rounded-lg p-3">
-                <p className="text-xs font-mono text-gray-600 mb-1">Share this link to receive anonymous messages:</p>
+                <p className="text-xs font-mono text-gray-600 mb-1">{t('settings.share_link_desc')}</p>
                 <div className="flex items-center gap-2">
                   <code className="flex-1 text-xs font-mono text-blue-800 bg-blue-50 p-2 rounded">
                     {typeof window !== "undefined" && `${window.location.origin}/ngl/${formData.username}`}
@@ -376,8 +378,7 @@ export default function ProfileSettings() {
                 </div>
               </div>
               <p className="text-xs font-mono text-gray-600">
-                Anyone with this link can send you anonymous messages. Share it on social media, in your bio, or with
-                friends!
+                {t('settings.share_link_help')}
               </p>
             </CardContent>
           </Card>
@@ -387,14 +388,14 @@ export default function ProfileSettings() {
             <CardHeader>
               <CardTitle className="text-lg font-mono text-gray-800 flex items-center gap-2">
                 <Shield className="w-5 h-5" />
-                Privacy & Preferences
+                {t('settings.privacy_preferences')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-mono font-semibold text-gray-700">Email Notifications</p>
-                  <p className="text-xs font-mono text-gray-500">Get notified when you receive new messages</p>
+                  <p className="text-sm font-mono font-semibold text-gray-700">{t('settings.email_notifications')}</p>
+                  <p className="text-xs font-mono text-gray-500">{t('settings.email_notifications_desc')}</p>
                 </div>
                 <Switch
                   checked={preferences.emailNotifications}
@@ -406,8 +407,8 @@ export default function ProfileSettings() {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-mono font-semibold text-gray-700">Public Profile</p>
-                  <p className="text-xs font-mono text-gray-500">Allow others to find your NGL link</p>
+                  <p className="text-sm font-mono font-semibold text-gray-700">{t('settings.public_profile')}</p>
+                  <p className="text-xs font-mono text-gray-500">{t('settings.public_profile_desc')}</p>
                 </div>
                 <Switch
                   checked={preferences.publicProfile}
@@ -419,8 +420,8 @@ export default function ProfileSettings() {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-mono font-semibold text-gray-700">Allow Anonymous Messages</p>
-                  <p className="text-xs font-mono text-gray-500">Accept messages from anonymous senders</p>
+                  <p className="text-sm font-mono font-semibold text-gray-700">{t('settings.allow_anonymous')}</p>
+                  <p className="text-xs font-mono text-gray-500">{t('settings.allow_anonymous_desc')}</p>
                 </div>
                 <Switch
                   checked={preferences.allowAnonymous}
@@ -436,23 +437,23 @@ export default function ProfileSettings() {
           {/* Account Stats */}
           <Card className="bg-green-50/80 border-2 border-green-200">
             <CardHeader>
-              <CardTitle className="text-base font-mono text-gray-800">Account Statistics</CardTitle>
+              <CardTitle className="text-base font-mono text-gray-800">{t('settings.account_statistics')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-mono text-gray-600">NGL Messages</span>
+                <span className="text-sm font-mono text-gray-600">{t('settings.ngl_messages')}</span>
                 <Badge variant="secondary" className="font-mono text-xs">
                   {stats.nglCount}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-mono text-gray-600">Secrets Created</span>
+                <span className="text-sm font-mono text-gray-600">{t('settings.secrets_created')}</span>
                 <Badge variant="secondary" className="font-mono text-xs">
                   {stats.secretCount}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-mono text-gray-600">Profile Views</span>
+                <span className="text-sm font-mono text-gray-600">{t('settings.profile_views')}</span>
                 <Badge variant="secondary" className="font-mono text-xs">
                   {stats.totalViews}
                 </Badge>
@@ -463,20 +464,20 @@ export default function ProfileSettings() {
           {/* Account Status */}
           <Card className="bg-white/80 border-2 border-gray-200">
             <CardHeader>
-              <CardTitle className="text-base font-mono text-gray-800">Account Status</CardTitle>
+              <CardTitle className="text-base font-mono text-gray-800">{t('settings.account_status')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full" />
-                <span className="text-sm font-mono text-gray-700">Active Account</span>
+                <span className="text-sm font-mono text-gray-700">{t('settings.active_account')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                <span className="text-sm font-mono text-gray-700">Google Verified</span>
+                <span className="text-sm font-mono text-gray-700">{t('settings.google_verified')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-orange-500 rounded-full" />
-                <span className="text-sm font-mono text-gray-700">NGL Enabled</span>
+                <span className="text-sm font-mono text-gray-700">{t('settings.ngl_enabled')}</span>
               </div>
               
               <Separator />
@@ -488,7 +489,7 @@ export default function ProfileSettings() {
                 className="w-full font-mono text-xs border-2 border-gray-300 hover:bg-gray-50"
               >
                 <LogOut className="w-3 h-3 mr-1" />
-                Sign Out
+                {t('auth.sign_out')}
               </Button>
             </CardContent>
           </Card>
@@ -496,15 +497,15 @@ export default function ProfileSettings() {
           {/* Danger Zone */}
           <Card className="bg-red-50/80 border-2 border-red-200">
             <CardHeader>
-              <CardTitle className="text-base font-mono text-red-800">Danger Zone</CardTitle>
+              <CardTitle className="text-base font-mono text-red-800">{t('settings.danger_zone')}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-xs font-mono text-red-600 mb-3">
-                Permanently delete your account and all associated data. This action cannot be undone.
+                {t('settings.danger_zone_desc')}
               </p>
               <Button onClick={deleteAccount} variant="destructive" size="sm" className="w-full font-mono text-xs">
                 <Trash2 className="w-3 h-3 mr-1" />
-                Delete Account
+                {t('settings.delete_account')}
               </Button>
             </CardContent>
           </Card>

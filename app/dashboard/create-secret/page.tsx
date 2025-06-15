@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,6 +11,7 @@ import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 
 export default function CreateSecret() {
+  const { t } = useTranslation()
   const [message, setMessage] = useState("")
   const [expiryMinutes, setExpiryMinutes] = useState("60")
   const [isCreating, setIsCreating] = useState(false)
@@ -19,8 +21,8 @@ export default function CreateSecret() {
   const createSecret = async () => {
     if (!message.trim()) {
       toast({
-        title: "Empty message",
-        description: "Please enter a secret message first.",
+        title: t('secrets.empty_message'),
+        description: t('secrets.empty_message_desc'),
         variant: "destructive",
       })
       return
@@ -45,8 +47,8 @@ export default function CreateSecret() {
       setMessage("")
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to create secret message. Please try again.",
+        title: t('common.error'),
+        description: t('secrets.create_error'),
         variant: "destructive",
       })
     } finally {
@@ -58,13 +60,13 @@ export default function CreateSecret() {
     try {
       await navigator.clipboard.writeText(secretUrl)
       toast({
-        title: "Copied!",
-        description: "Secret link copied to clipboard.",
+        title: t('common.copied'),
+        description: t('secrets.link_copied'),
       })
     } catch (error) {
       toast({
-        title: "Copy failed",
-        description: "Please copy the link manually.",
+        title: t('common.copy_failed'),
+        description: t('common.try_again'),
         variant: "destructive",
       })
     }
@@ -81,9 +83,9 @@ export default function CreateSecret() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
           <Flame className="w-6 h-6" />
-          Create Secret Message
+          {t('secrets.create_secret')}
         </h1>
-        <p className="text-sm text-gray-600 font-mono">Create a self-destructing message that burns after reading</p>
+        <p className="text-sm text-gray-600 font-mono">{t('secrets.create_secret_desc')}</p>
       </div>
 
       {!secretUrl ? (
@@ -92,19 +94,19 @@ export default function CreateSecret() {
           <CardHeader className="text-center">
             <CardTitle className="text-xl font-mono text-gray-800 flex items-center justify-center gap-2">
               <Send className="w-5 h-5" />
-              Compose Your Secret
+              {t('secrets.compose_secret')}
             </CardTitle>
             <CardDescription className="font-mono text-gray-600 text-sm">
-              Write your message. Once read, it burns forever.
+              {t('secrets.write_message')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
             <div>
-              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2">Your Secret Message</label>
+              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2">{t('secrets.your_secret_message')}</label>
               <Textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type your secret here... passwords, love notes, jokes, anything!"
+                placeholder={t('secrets.placeholder')}
                 className="min-h-32 font-mono text-base bg-white/80 border-2 border-orange-200 focus:border-orange-400 resize-none"
                 maxLength={1000}
               />
@@ -114,23 +116,23 @@ export default function CreateSecret() {
             <div>
               <label className="text-sm font-mono font-semibold text-gray-700 mb-2 flex items-center gap-2">
                 <Clock className="w-4 h-4" />
-                Auto-Delete Timer
+                {t('secrets.auto_delete_timer')}
               </label>
               <Select value={expiryMinutes} onValueChange={setExpiryMinutes}>
                 <SelectTrigger className="font-mono bg-white/80 border-2 border-orange-200">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="10">10 minutes</SelectItem>
-                  <SelectItem value="30">30 minutes</SelectItem>
-                  <SelectItem value="60">1 hour</SelectItem>
-                  <SelectItem value="180">3 hours</SelectItem>
-                  <SelectItem value="720">12 hours</SelectItem>
-                  <SelectItem value="1440">24 hours</SelectItem>
+                  <SelectItem value="10">10 {t('secrets.minutes')}</SelectItem>
+                  <SelectItem value="30">30 {t('secrets.minutes')}</SelectItem>
+                  <SelectItem value="60">1 {t('secrets.hour')}</SelectItem>
+                  <SelectItem value="180">3 {t('secrets.hours')}</SelectItem>
+                  <SelectItem value="720">12 {t('secrets.hours')}</SelectItem>
+                  <SelectItem value="1440">24 {t('secrets.hours')}</SelectItem>
                 </SelectContent>
               </Select>
               <p className="text-xs text-gray-500 font-mono mt-1">
-                Message will auto-delete after this time, even if unread
+                {t('secrets.message_auto_delete')}
               </p>
             </div>
 
@@ -138,8 +140,7 @@ export default function CreateSecret() {
               <div className="flex items-start gap-2">
                 <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
                 <div className="font-mono text-sm text-yellow-800">
-                  <strong>Important:</strong> This secret will self-destruct after being read once OR after the timer
-                  expires - whichever comes first. Make sure your recipient is ready!
+                  <strong>{t('secrets.important')}</strong> {t('secrets.self_destruct_notice')}
                 </div>
               </div>
             </div>
@@ -152,12 +153,12 @@ export default function CreateSecret() {
               {isCreating ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Creating Secret...
+                  {t('secrets.creating_secret')}
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <Flame className="w-5 h-5" />
-                  Create Secret Link
+                  {t('secrets.create_secret_link')}
                 </div>
               )}
             </Button>
@@ -169,15 +170,15 @@ export default function CreateSecret() {
           <CardHeader className="text-center">
             <CardTitle className="text-xl font-mono text-green-800 flex items-center justify-center gap-2">
               <Flame className="w-5 h-5" />
-              Secret Created Successfully!
+              {t('secrets.secret_created')}
             </CardTitle>
             <CardDescription className="font-mono text-green-600 text-sm">
-              Share this link carefully. It can only be opened once.
+              {t('secrets.share_carefully')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
             <div>
-              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2">Your Secret Link</label>
+              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2">{t('secrets.your_secret_link')}</label>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -195,8 +196,7 @@ export default function CreateSecret() {
               <div className="flex items-start gap-2">
                 <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
                 <div className="font-mono text-sm text-yellow-800">
-                  <strong>Warning:</strong> This link will self-destruct after being opened once, or after{" "}
-                  {expiryMinutes} minutes - whichever comes first. The recipient should be ready to read it immediately.
+                  <strong>{t('secrets.warning')}</strong> {t('secrets.warning_notice', { minutes: expiryMinutes })}
                 </div>
               </div>
             </div>
@@ -207,14 +207,14 @@ export default function CreateSecret() {
                 variant="outline"
                 className="flex-1 font-mono border-2 border-gray-300 hover:bg-gray-50 text-sm"
               >
-                Create Another Secret
+                {t('secrets.create_another')}
               </Button>
               <Link href="/dashboard/secrets" className="flex-1">
                 <Button
                   variant="outline"
                   className="w-full font-mono border-2 border-green-300 hover:bg-green-50 text-sm"
                 >
-                  View All Secrets
+                  {t('secrets.view_all_secrets')}
                 </Button>
               </Link>
             </div>

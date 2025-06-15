@@ -42,7 +42,7 @@ export default function HomePage() {
             <h1 className="text-4xl font-bold text-gray-800 font-mono tracking-wider">WHISPR</h1>
             <Flame className="w-8 h-8 text-orange-600" />
           </div>
-          <p className="text-base text-gray-600 font-mono">Anonymous messaging • Self-destructing secrets</p>
+          <p className="text-base text-gray-600 font-mono">{t('landing.tagline')}</p>
           <div className="w-20 h-1 bg-orange-400 mx-auto mt-3 rounded" />
         </div>
 
@@ -52,16 +52,16 @@ export default function HomePage() {
             <CardHeader className="text-center pb-3">
               <CardTitle className="text-lg font-mono text-gray-800 flex items-center justify-center gap-2">
                 <MessageSquare className="w-5 h-5" />
-                {t('navigation.ngl_messages')}
+                {t('landing.ngl_title')}
               </CardTitle>
               <CardDescription className="font-mono text-gray-600 text-sm">
-                Receive anonymous messages from anyone
+                {t('landing.ngl_description')}
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <div className="text-4xl mb-3">💬</div>
               <p className="font-mono text-xs text-gray-600 mb-4">
-                Get honest feedback, compliments, or questions anonymously
+                {t('landing.ngl_detail')}
               </p>
             </CardContent>
           </Card>
@@ -70,16 +70,16 @@ export default function HomePage() {
             <CardHeader className="text-center pb-3">
               <CardTitle className="text-lg font-mono text-gray-800 flex items-center justify-center gap-2">
                 <Lock className="w-5 h-5" />
-                {t('navigation.secret_messages')}
+                {t('landing.secrets_title')}
               </CardTitle>
               <CardDescription className="font-mono text-gray-600 text-sm">
-                Share secrets that self-destruct
+                {t('landing.secrets_description')}
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <div className="text-4xl mb-3">🔥</div>
               <p className="font-mono text-xs text-gray-600 mb-4">
-                Send passwords, notes, or secrets that burn after reading
+                {t('landing.secrets_detail')}
               </p>
             </CardContent>
           </Card>
@@ -90,10 +90,10 @@ export default function HomePage() {
           <CardContent className="text-center py-6">
             <div className="flex items-center justify-center gap-2 mb-3">
               <Users className="w-5 h-5 text-green-600" />
-              <h3 className="text-lg font-mono font-bold text-gray-800">Get Started</h3>
+              <h3 className="text-lg font-mono font-bold text-gray-800">{t('landing.get_started')}</h3>
             </div>
             <p className="font-mono text-sm text-gray-600 mb-4">
-              Sign in with Google to access your dashboard and start receiving anonymous messages
+              {t('landing.get_started_description')}
             </p>
             <Link href="/auth/signin">
               <Button className="bg-orange-600 hover:bg-orange-700 text-white font-mono text-sm py-3 px-6 transition-all duration-200 transform hover:scale-105">
@@ -106,8 +106,8 @@ export default function HomePage() {
 
         {/* Footer */}
         <div className="text-center mt-8 text-gray-500 font-mono text-xs">
-          <p>Built with 🔥 for anonymous communication</p>
-          <p className="mt-1">Secure • Private • Self-destructing</p>
+          <p>{t('landing.footer_built')}</p>
+          <p className="mt-1">{t('landing.footer_features')}</p>
         </div>
       </div>
     </div>

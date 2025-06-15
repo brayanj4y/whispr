@@ -26,10 +26,9 @@ i18n
     
     // Language detection configuration
     detection: {
-      order: ['navigator', 'localStorage', 'htmlTag', 'path', 'subdomain'],
+      // Remove 'path' and 'subdomain' to prevent URL-based routing issues
+      order: ['navigator', 'localStorage', 'htmlTag'],
       lookupLocalStorage: 'i18nextLng',
-      lookupFromPathIndex: 0,
-      lookupFromSubdomainIndex: 0,
       caches: ['localStorage'],
       excludeCacheFor: ['cimode'],
       convertDetectedLanguage: (lng: string) => {

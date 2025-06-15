@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useSession, signOut } from "next-auth/react"
 import { usePathname } from "next/navigation"
+import { useTranslation } from "react-i18next"
 import Link from "next/link"
 import {
   Sidebar,
@@ -21,11 +22,15 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Flame, LogOut } from "lucide-react"
-import { navigationItems, quickActionItems } from "@/lib/navigation"
+import { getNavigationItems, getQuickActionItems } from "@/lib/navigation"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession()
+  const { t } = useTranslation()
   const pathname = usePathname()
+
+  const navigationItems = getNavigationItems(t)
+  const quickActionItems = getQuickActionItems(t)
 
   return (
     <Sidebar {...props}>
@@ -38,7 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-mono">Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xs font-mono">{t('sidebar.navigation')}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((item) => (
@@ -56,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-mono">Quick Actions</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xs font-mono">{t('sidebar.quick_actions')}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {quickActionItems.map((item) => (
@@ -87,7 +92,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
         <Button onClick={() => signOut()} variant="outline" size="sm" className="w-full text-xs font-mono">
           <LogOut className="w-3 h-3 mr-1" />
-          Sign Out
+          {t('auth.sign_out')}
         </Button>
       </SidebarFooter>
 

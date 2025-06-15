@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -17,6 +18,7 @@ interface DashboardStats {
 
 export default function Dashboard() {
   const { data: session } = useSession()
+  const { t } = useTranslation()
   const [stats, setStats] = useState<DashboardStats>({ nglCount: 0, secretCount: 0, unreadNgl: 0 })
   const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
@@ -44,13 +46,13 @@ export default function Dashboard() {
     try {
       await navigator.clipboard.writeText(nglUrl)
       toast({
-        title: "Copied!",
-        description: "Your NGL link has been copied to clipboard.",
+        title: t('settings.link_copied'),
+        description: t('dashboard.copy_link'),
       })
     } catch (error) {
       toast({
-        title: "Copy failed",
-        description: "Please copy the link manually.",
+        title: t('settings.link_copy_failed'),
+        description: t('common.try_again'),
         variant: "destructive",
       })
     }
@@ -69,9 +71,9 @@ export default function Dashboard() {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1">
-          Welcome back, {session?.user?.name?.split(" ")[0]}!
+          {t('dashboard.welcome_back')}, {session?.user?.name?.split(" ")[0]}!
         </h1>
-        <p className="text-sm text-gray-600 font-mono">Manage your anonymous messages and secrets</p>
+        <p className="text-sm text-gray-600 font-mono">{t('dashboard.manage_messages')}</p>
       </div>
 
       {/* Stats Cards */}
@@ -80,7 +82,7 @@ export default function Dashboard() {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-mono text-blue-800 flex items-center gap-2">
               <MessageSquare className="w-4 h-4" />
-              NGL Messages
+              {t('navigation.ngl_messages')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -88,7 +90,7 @@ export default function Dashboard() {
               <span className="text-xl font-bold font-mono text-blue-900">{stats.nglCount}</span>
               {stats.unreadNgl > 0 && (
                 <Badge variant="destructive" className="text-xs">
-                  {stats.unreadNgl} new
+                  {stats.unreadNgl} {t('common.new')}
                 </Badge>
               )}
             </div>
@@ -99,7 +101,7 @@ export default function Dashboard() {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-mono text-red-800 flex items-center gap-2">
               <Lock className="w-4 h-4" />
-              Secrets Created
+              {t('dashboard.secret_links')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -111,13 +113,13 @@ export default function Dashboard() {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-mono text-green-800 flex items-center gap-2">
               <Plus className="w-4 h-4" />
-              Quick Actions
+              {t('dashboard.quick_actions')}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <Link href="/dashboard/create-secret">
               <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white font-mono text-xs">
-                Create Secret
+                {t('navigation.create_secret')}
               </Button>
             </Link>
           </CardContent>
@@ -127,9 +129,9 @@ export default function Dashboard() {
       {/* NGL Link Card */}
       <Card className="bg-amber-50/80 border-2 border-orange-200">
         <CardHeader>
-          <CardTitle className="text-lg font-mono text-gray-800">Your NGL Link</CardTitle>
+          <CardTitle className="text-lg font-mono text-gray-800">{t('dashboard.your_ngl_link')}</CardTitle>
           <CardDescription className="font-mono text-gray-600 text-sm">
-            Share this link to receive anonymous messages
+            {t('dashboard.share_ngl_description')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -148,7 +150,7 @@ export default function Dashboard() {
             <Link href={`/ngl/${session?.user?.username}`} className="flex-1">
               <Button variant="outline" size="sm" className="w-full font-mono text-xs border-2">
                 <ExternalLink className="w-3 h-3 mr-1" />
-                Preview Link
+                {t('dashboard.preview_link')}
               </Button>
             </Link>
           </div>
@@ -161,21 +163,21 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="text-base font-mono text-gray-800 flex items-center gap-2">
               <MessageSquare className="w-4 h-4" />
-              Recent NGL Messages
+              {t('dashboard.recent_ngl')}
             </CardTitle>
           </CardHeader>
           <CardContent>
             {stats.nglCount > 0 ? (
               <div className="space-y-2">
-                <p className="text-xs font-mono text-gray-600">You have {stats.nglCount} anonymous messages</p>
+                <p className="text-xs font-mono text-gray-600">{t('dashboard.you_have')} {stats.nglCount} {t('dashboard.anonymous_messages')}</p>
                 <Link href="/dashboard/ngl">
                   <Button size="sm" variant="outline" className="w-full font-mono text-xs">
-                    View All Messages
+                    {t('dashboard.view_all_messages')}
                   </Button>
                 </Link>
               </div>
             ) : (
-              <p className="text-xs font-mono text-gray-500">No messages yet. Share your NGL link to get started!</p>
+              <p className="text-xs font-mono text-gray-500">{t('dashboard.no_messages_yet')}</p>
             )}
           </CardContent>
         </Card>
@@ -184,15 +186,15 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="text-base font-mono text-gray-800 flex items-center gap-2">
               <Lock className="w-4 h-4" />
-              Secret Messages
+              {t('navigation.secret_messages')}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <p className="text-xs font-mono text-gray-600">Create self-destructing secret messages</p>
+              <p className="text-xs font-mono text-gray-600">{t('dashboard.create_secret_desc')}</p>
               <Link href="/dashboard/create-secret">
                 <Button size="sm" variant="outline" className="w-full font-mono text-xs">
-                  Create New Secret
+                  {t('dashboard.create_new_secret')}
                 </Button>
               </Link>
             </div>

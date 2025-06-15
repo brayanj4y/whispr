@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Flame, Eye, Clock, AlertTriangle, Home } from "lucide-react"
@@ -9,6 +10,7 @@ import Link from "next/link"
 
 export default function SecretPage() {
   const params = useParams()
+  const { t } = useTranslation()
   const [secret, setSecret] = useState<string | null>(null)
   const [isRevealed, setIsRevealed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +27,7 @@ export default function SecretPage() {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to retrieve secret")
+        throw new Error(errorData.error || t('secret_page.failed_to_retrieve'))
       }
 
       const data = await response.json()
@@ -37,7 +39,7 @@ export default function SecretPage() {
         setIsBurning(true)
       }, 10000)
     } catch (error) {
-      setError(error instanceof Error ? error.message : "An error occurred")
+      setError(error instanceof Error ? error.message : t('secret_page.error_occurred'))
     } finally {
       setIsLoading(false)
     }
@@ -58,15 +60,15 @@ export default function SecretPage() {
           }
         } else {
           const errorData = await response.json()
-          setError(errorData.error || "Secret not found")
+          setError(errorData.error || t('secret_page.not_found'))
         }
       } catch (error) {
-        setError("Failed to check secret status")
+        setError(t('secret_page.failed_to_check'))
       }
     }
 
     checkSecret()
-  }, [params.id])
+  }, [params.id, t])
 
   // Update countdown timer
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function SecretPage() {
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev === null || prev <= 1000) {
-          setError("This secret has expired")
+          setError(t('secret_page.expired'))
           return 0
         }
         return prev - 1000
@@ -83,7 +85,7 @@ export default function SecretPage() {
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [timeLeft])
+  }, [timeLeft, t])
 
   const formatTimeLeft = (ms: number) => {
     const minutes = Math.floor(ms / 60000)
@@ -115,19 +117,19 @@ export default function SecretPage() {
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-mono text-red-800 flex items-center justify-center gap-2">
                 <AlertTriangle className="w-6 h-6" />
-                Secret Not Found
+                {t('secret_page.not_found')}
               </CardTitle>
               <CardDescription className="font-mono text-red-600">{error}</CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <div className="mb-6">
                 <div className="text-6xl mb-4">💨</div>
-                <p className="font-mono text-gray-600">This secret has already been read or has expired.</p>
+                <p className="font-mono text-gray-600">{t('secret_page.not_found_desc')}</p>
               </div>
               <Link href="/">
                 <Button className="bg-orange-600 hover:bg-orange-700 text-white font-mono">
                   <Home className="w-4 h-4 mr-2" />
-                  Create New Secret
+                  {t('secret_page.create_your_own')}
                 </Button>
               </Link>
             </CardContent>
@@ -138,10 +140,10 @@ export default function SecretPage() {
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-mono text-gray-800 flex items-center justify-center gap-2">
                 <Eye className="w-6 h-6" />
-                Secret Message Waiting
+                {t('secret_page.waiting')}
               </CardTitle>
               <CardDescription className="font-mono text-gray-600">
-                Someone has shared a secret message with you
+                {t('secret_page.waiting_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 text-center">
@@ -149,7 +151,7 @@ export default function SecretPage() {
                 <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
                   <div className="flex items-center justify-center gap-2 text-yellow-800 font-mono">
                     <Clock className="w-4 h-4" />
-                    <span>Expires in: {formatTimeLeft(timeLeft)}</span>
+                    <span>{t('secret_page.expires_in')} {formatTimeLeft(timeLeft)}</span>
                   </div>
                 </div>
               )}
@@ -160,8 +162,7 @@ export default function SecretPage() {
                 <div className="flex items-start gap-2">
                   <Flame className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
                   <div className="font-mono text-sm text-red-800">
-                    <strong>Warning:</strong> This message will self-destruct immediately after you read it. Make sure
-                    you're ready!
+                    <strong>{t('secret_page.warning')}</strong> {t('secret_page.warning_desc')}
                   </div>
                 </div>
               </div>
@@ -174,12 +175,12 @@ export default function SecretPage() {
                 {isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Revealing Secret...
+                    {t('secret_page.revealing')}
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
                     <Eye className="w-5 h-5" />
-                    Reveal Secret Message
+                    {t('secret_page.reveal_secret')}
                   </div>
                 )}
               </Button>
@@ -195,10 +196,10 @@ export default function SecretPage() {
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-mono text-gray-800 flex items-center justify-center gap-2">
                 <Flame className={`w-6 h-6 ${isBurning ? "text-red-600 animate-bounce" : "text-orange-600"}`} />
-                Secret Message
+                {t('secret_page.message_revealed')}
               </CardTitle>
               <CardDescription className="font-mono text-gray-600">
-                {isBurning ? "This message is burning..." : "Read carefully - this will disappear soon"}
+                {isBurning ? t('secret_page.burning') : t('secret_page.read_carefully')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -219,7 +220,7 @@ export default function SecretPage() {
               {isBurning && (
                 <div className="text-center">
                   <div className="text-4xl mb-2 animate-bounce">🔥</div>
-                  <p className="font-mono text-red-600 animate-pulse">This message is self-destructing...</p>
+                  <p className="font-mono text-red-600 animate-pulse">{t('secret_page.self_destructing')}</p>
                 </div>
               )}
 
@@ -227,7 +228,7 @@ export default function SecretPage() {
                 <Link href="/">
                   <Button variant="outline" className="font-mono border-2 border-gray-300 hover:bg-gray-50">
                     <Home className="w-4 h-4 mr-2" />
-                    Create Your Own Secret
+                    {t('secret_page.create_your_own')}
                   </Button>
                 </Link>
               </div>
@@ -237,7 +238,7 @@ export default function SecretPage() {
 
         {/* Footer */}
         <div className="text-center mt-12 text-gray-500 font-mono text-sm">
-          <p>This message has been destroyed forever 🔥</p>
+          <p>{t('secret_page.destroyed_forever')}</p>
         </div>
       </div>
     </div>

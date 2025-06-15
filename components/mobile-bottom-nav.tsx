@@ -3,13 +3,15 @@
 import type React from "react"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
+import { useTranslation } from "react-i18next"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { mobileNavigationItems } from "@/lib/navigation"
+import { getMobileNavigationItems } from "@/lib/navigation"
 
 export function MobileBottomNav() {
   const { data: session, status } = useSession()
+  const { t } = useTranslation()
   const pathname = usePathname()
   const isMobile = useIsMobile()
 
@@ -23,11 +25,13 @@ export function MobileBottomNav() {
     return null
   }
 
+  const navigationItems = getMobileNavigationItems(t)
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
       <div className="bg-white/95 backdrop-blur-sm border-t-2 border-orange-200 px-2 py-2">
         <nav className="flex items-center justify-around max-w-md mx-auto">
-          {mobileNavigationItems.map((item) => {
+          {navigationItems.map((item) => {
             const isActive = pathname === item.url
             const Icon = item.icon
             

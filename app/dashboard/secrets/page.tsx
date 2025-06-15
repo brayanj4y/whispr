@@ -112,21 +112,21 @@ export default function SecretMessages() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
       {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
-            <Lock className="w-6 h-6" />
+          <h1 className="text-xl sm:text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
+            <Lock className="w-5 h-5 sm:w-6 sm:h-6" />
             {t("yourSecretMessages")}
           </h1>
-          <p className="text-sm text-gray-600 font-mono">
+          <p className="text-xs sm:text-sm text-gray-600 font-mono">
             {t("selfDestructingSecretsYouveCreated")} • {t("total")}: {secrets.length}
           </p>
         </div>
-        <Link href="/dashboard/create-secret">
-          <Button className="bg-orange-600 hover:bg-orange-700 text-white font-mono text-sm">
-            <Plus className="w-4 h-4 mr-1" />
+        <Link href="/dashboard/create-secret" className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-mono text-xs sm:text-sm py-2 sm:py-3">
+            <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
             {t("createNewSecret")}
           </Button>
         </Link>
@@ -135,13 +135,13 @@ export default function SecretMessages() {
       {/* Secrets */}
       {secrets.length === 0 ? (
         <Card className="bg-amber-50/80 border-2 border-orange-200 text-center">
-          <CardContent className="py-8">
-            <div className="text-6xl mb-4">🔒</div>
-            <h3 className="text-lg font-mono font-bold text-gray-800 mb-2">{t("noSecretsCreatedYet")}</h3>
-            <p className="text-sm font-mono text-gray-600 mb-4">{t("createYourFirstSelfDestructingSecretMessage")}</p>
+          <CardContent className="py-6 sm:py-8 px-4">
+            <div className="text-4xl sm:text-6xl mb-4">🔒</div>
+            <h3 className="text-base sm:text-lg font-mono font-bold text-gray-800 mb-2">{t("noSecretsCreatedYet")}</h3>
+            <p className="text-xs sm:text-sm font-mono text-gray-600 mb-4">{t("createYourFirstSelfDestructingSecretMessage")}</p>
             <Link href="/dashboard/create-secret">
-              <Button className="bg-orange-600 hover:bg-orange-700 text-white font-mono text-sm">
-                <Plus className="w-4 h-4 mr-2" />
+              <Button className="bg-orange-600 hover:bg-orange-700 text-white font-mono text-xs sm:text-sm py-2 sm:py-3">
+                <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                 {t("createYourFirstSecret")}
               </Button>
             </Link>
@@ -162,11 +162,11 @@ export default function SecretMessages() {
                     : "bg-green-50/80 border-2 border-green-200"
                 }`}
               >
-                <CardHeader className="pb-2">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-mono text-gray-800 flex items-center gap-2">
-                      <Lock className="w-4 h-4" />
-                      {t("secretMessage")}
+                <CardHeader className="pb-2 px-4 sm:px-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <CardTitle className="text-xs sm:text-sm font-mono text-gray-800 flex items-center gap-2 flex-wrap">
+                      <Lock className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span className="whitespace-nowrap">{t("secretMessage")}</span>
                       {secret.is_read && (
                         <Badge variant="destructive" className="text-xs">
                           {t("readDestroyed")}
@@ -185,13 +185,13 @@ export default function SecretMessages() {
                     </CardTitle>
                     <div className="flex items-center gap-2 text-xs text-gray-500 font-mono">
                       <Clock className="w-3 h-3" />
-                      {t("created")} {formatTimeAgo(secret.created_at)}
+                      <span className="whitespace-nowrap">{t("created")} {formatTimeAgo(secret.created_at)}</span>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="bg-gray-50 border-2 border-gray-200 rounded-lg p-4">
-                    <p className="font-mono text-sm leading-relaxed text-gray-800">
+                <CardContent className="space-y-3 px-4 sm:px-6">
+                  <div className="bg-gray-50 border-2 border-gray-200 rounded-lg p-3 sm:p-4">
+                    <p className="font-mono text-xs sm:text-sm leading-relaxed text-gray-800 break-words">
                       {secret.is_read ? (
                         <span className="text-red-600 italic">🔥 {t("thisSecretHasBeenReadAndDestroyed")}</span>
                       ) : secret.message.length > 100 ? (
@@ -202,19 +202,19 @@ export default function SecretMessages() {
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div className="flex items-center gap-2 text-xs font-mono">
                       {!secret.is_read && !isExpired && <span className="text-green-600">⏰ {timeLeft}</span>}
                       {isExpired && !secret.is_read && <span className="text-red-600">⏰ {t("expired")}</span>}
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full sm:w-auto">
                       {!secret.is_read && !isExpired && (
                         <Button
                           onClick={() => copySecretLink(secret.id)}
                           variant="outline"
                           size="sm"
-                          className="font-mono text-xs"
+                          className="font-mono text-xs flex-1 sm:flex-none py-2"
                         >
                           <Eye className="w-3 h-3 mr-1" />
                           {t("copyLink")}
@@ -225,7 +225,7 @@ export default function SecretMessages() {
                         onClick={() => deleteSecret(secret.id)}
                         variant="destructive"
                         size="sm"
-                        className="font-mono text-xs"
+                        className="font-mono text-xs flex-1 sm:flex-none py-2"
                       >
                         <Trash2 className="w-3 h-3 mr-1" />
                         {t("delete")}

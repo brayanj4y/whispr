@@ -188,7 +188,7 @@
   },
   "settings": {
     "title": "Settings",
-    "subtitle": "Manage your account and preferences",
+    "subtitle": "Manage your account settings",
     "profile_settings": "Profile Settings",
     "profile_settings_desc": "Manage your account and customize your Whispr experience",
     "account_status": "Account Status",
@@ -227,13 +227,7 @@
     "saving": "Saving...",
     "share_link_desc": "Share this link to receive anonymous messages:",
     "share_link_help": "Anyone with this link can send you anonymous messages. Share it on social media, in your bio, or with friends!",
-    "privacy_preferences": "Privacy & Preferences",
-    "email_notifications": "Email Notifications",
-    "email_notifications_desc": "Get notified when you receive new messages",
-    "public_profile": "Public Profile",
-    "public_profile_desc": "Allow others to find your NGL link",
-    "allow_anonymous": "Allow Anonymous Messages",
-    "allow_anonymous_desc": "Accept messages from anonymous senders",
+
     "account_statistics": "Account Statistics",
     "ngl_messages": "NGL Messages",
     "secrets_created": "Secrets Created",

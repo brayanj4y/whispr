@@ -10,8 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { Settings, User, LinkIcon, Shield, Trash2, Copy, Check, LogOut } from "lucide-react"
+import { Settings, User, LinkIcon, Trash2, Copy, Check, LogOut } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 interface UserProfile {
@@ -43,11 +42,6 @@ export default function ProfileSettings() {
     name: "",
     username: "",
   })
-  const [preferences, setPreferences] = useState({
-    emailNotifications: true,
-    publicProfile: true,
-    allowAnonymous: true,
-  })
   const [linkCopied, setLinkCopied] = useState(false)
   const { toast } = useToast()
 
@@ -55,6 +49,8 @@ export default function ProfileSettings() {
     fetchProfile()
     fetchStats()
   }, [])
+
+
 
   const fetchProfile = async () => {
     try {
@@ -253,17 +249,17 @@ export default function ProfileSettings() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
-          <Settings className="w-6 h-6" />
+        <h1 className="text-xl sm:text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
+          <Settings className="w-5 h-5 sm:w-6 sm:h-6" />
           {t('settings.profile_settings')}
         </h1>
-        <p className="text-sm text-gray-600 font-mono">{t('settings.profile_settings_desc')}</p>
+        <p className="text-xs sm:text-sm text-gray-600 font-mono">{t('settings.profile_settings_desc')}</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Profile Information */}
         <div className="lg:col-span-2 space-y-4">
           <Card className="bg-white/80 border-2 border-gray-200">
@@ -343,7 +339,7 @@ export default function ProfileSettings() {
               <Button
                 onClick={saveProfile}
                 disabled={isSaving || usernameAvailable === false}
-                className="bg-orange-600 hover:bg-orange-700 text-white font-mono text-sm"
+                className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-mono text-xs sm:text-sm py-2 sm:py-3"
               >
                 {isSaving ? (
                   <div className="flex items-center gap-2">
@@ -359,13 +355,13 @@ export default function ProfileSettings() {
 
           {/* NGL Link */}
           <Card className="bg-blue-50/80 border-2 border-blue-200">
-            <CardHeader>
-              <CardTitle className="text-lg font-mono text-gray-800 flex items-center gap-2">
-                <LinkIcon className="w-5 h-5" />
+            <CardHeader className="px-4 sm:px-6">
+              <CardTitle className="text-base sm:text-lg font-mono text-gray-800 flex items-center gap-2">
+                <LinkIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                 {t('settings.your_ngl_link')}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 px-4 sm:px-6">
               <div className="bg-white border-2 border-blue-200 rounded-lg p-3">
                 <p className="text-xs font-mono text-gray-600 mb-1">{t('settings.share_link_desc')}</p>
                 <div className="flex items-center gap-2">
@@ -383,53 +379,7 @@ export default function ProfileSettings() {
             </CardContent>
           </Card>
 
-          {/* Privacy & Preferences */}
-          <Card className="bg-white/80 border-2 border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-lg font-mono text-gray-800 flex items-center gap-2">
-                <Shield className="w-5 h-5" />
-                {t('settings.privacy_preferences')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-mono font-semibold text-gray-700">{t('settings.email_notifications')}</p>
-                  <p className="text-xs font-mono text-gray-500">{t('settings.email_notifications_desc')}</p>
-                </div>
-                <Switch
-                  checked={preferences.emailNotifications}
-                  onCheckedChange={(checked) => setPreferences({ ...preferences, emailNotifications: checked })}
-                />
-              </div>
 
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-mono font-semibold text-gray-700">{t('settings.public_profile')}</p>
-                  <p className="text-xs font-mono text-gray-500">{t('settings.public_profile_desc')}</p>
-                </div>
-                <Switch
-                  checked={preferences.publicProfile}
-                  onCheckedChange={(checked) => setPreferences({ ...preferences, publicProfile: checked })}
-                />
-              </div>
-
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-mono font-semibold text-gray-700">{t('settings.allow_anonymous')}</p>
-                  <p className="text-xs font-mono text-gray-500">{t('settings.allow_anonymous_desc')}</p>
-                </div>
-                <Switch
-                  checked={preferences.allowAnonymous}
-                  onCheckedChange={(checked) => setPreferences({ ...preferences, allowAnonymous: checked })}
-                />
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Stats & Actions Sidebar */}

@@ -78,48 +78,48 @@ export default function CreateSecret() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       {/* Header */}
       <div className="mb-6">
-          <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
-            <Flame className="w-6 h-6" />
+          <h1 className="text-xl sm:text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
+            <Flame className="w-5 h-5 sm:w-6 sm:h-6" />
           {t('secrets.create_secret')}
           </h1>
-        <p className="text-sm text-gray-600 font-mono">{t('secrets.create_secret_desc')}</p>
+        <p className="text-xs sm:text-sm text-gray-600 font-mono">{t('secrets.create_secret_desc')}</p>
       </div>
 
       {!secretUrl ? (
         /* Create Secret Form */
         <Card className="bg-amber-50/80 border-2 border-orange-200 shadow-xl backdrop-blur-sm">
-          <CardHeader className="text-center">
-            <CardTitle className="text-xl font-mono text-gray-800 flex items-center justify-center gap-2">
-              <Send className="w-5 h-5" />
+          <CardHeader className="text-center px-4 sm:px-6">
+            <CardTitle className="text-lg sm:text-xl font-mono text-gray-800 flex items-center justify-center gap-2">
+              <Send className="w-4 h-4 sm:w-5 sm:h-5" />
               {t('secrets.compose_secret')}
             </CardTitle>
-            <CardDescription className="font-mono text-gray-600 text-sm">
+            <CardDescription className="font-mono text-gray-600 text-xs sm:text-sm">
               {t('secrets.write_message')}
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
+          <CardContent className="space-y-4 sm:space-y-5 px-4 sm:px-6">
             <div>
-              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2">{t('secrets.your_secret_message')}</label>
+              <label className="block text-xs sm:text-sm font-mono font-semibold text-gray-700 mb-2">{t('secrets.your_secret_message')}</label>
               <Textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder={t('secrets.placeholder')}
-                className="min-h-32 font-mono text-base bg-white/80 border-2 border-orange-200 focus:border-orange-400 resize-none"
+                className="min-h-28 sm:min-h-32 font-mono text-sm sm:text-base bg-white/80 border-2 border-orange-200 focus:border-orange-400 resize-none"
                 maxLength={1000}
               />
-              <div className="text-right text-sm text-gray-500 font-mono mt-1">{message.length}/1000</div>
+              <div className="text-right text-xs sm:text-sm text-gray-500 font-mono mt-1">{message.length}/1000</div>
             </div>
 
             <div>
-              <label className="text-sm font-mono font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                <Clock className="w-4 h-4" />
+              <label className="text-xs sm:text-sm font-mono font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                 {t('secrets.auto_delete_timer')}
               </label>
               <Select value={expiryMinutes} onValueChange={setExpiryMinutes}>
-                <SelectTrigger className="font-mono bg-white/80 border-2 border-orange-200">
+                <SelectTrigger className="font-mono bg-white/80 border-2 border-orange-200 text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -136,10 +136,10 @@ export default function CreateSecret() {
               </p>
             </div>
 
-            <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
+            <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-3 sm:p-4">
               <div className="flex items-start gap-2">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
-                <div className="font-mono text-sm text-yellow-800">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-1 sm:mt-2 flex-shrink-0" />
+                <div className="font-mono text-xs sm:text-sm text-yellow-800">
                   <strong>{t('secrets.important')}</strong> {t('secrets.self_destruct_notice')}
                 </div>
               </div>
@@ -148,7 +148,7 @@ export default function CreateSecret() {
             <Button
               onClick={createSecret}
               disabled={isCreating || !message.trim()}
-              className="w-full bg-orange-600 hover:bg-orange-700 text-white font-mono text-base py-5 transition-all duration-200 transform hover:scale-105"
+              className="w-full bg-orange-600 hover:bg-orange-700 text-white font-mono text-sm sm:text-base py-4 sm:py-5 transition-all duration-200 transform hover:scale-105"
             >
               {isCreating ? (
                 <div className="flex items-center gap-2">
@@ -157,7 +157,7 @@ export default function CreateSecret() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Flame className="w-5 h-5" />
+                  <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
                   {t('secrets.create_secret_link')}
                 </div>
               )}
@@ -167,52 +167,53 @@ export default function CreateSecret() {
       ) : (
         /* Secret Created */
         <Card className="bg-green-50/80 border-2 border-green-200 shadow-xl backdrop-blur-sm">
-          <CardHeader className="text-center">
-            <CardTitle className="text-xl font-mono text-green-800 flex items-center justify-center gap-2">
-              <Flame className="w-5 h-5" />
+          <CardHeader className="text-center px-4 sm:px-6">
+            <CardTitle className="text-lg sm:text-xl font-mono text-green-800 flex items-center justify-center gap-2">
+              <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
               {t('secrets.secret_created')}
             </CardTitle>
-            <CardDescription className="font-mono text-green-600 text-sm">
+            <CardDescription className="font-mono text-green-600 text-xs sm:text-sm">
               {t('secrets.share_carefully')}
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
+          <CardContent className="space-y-4 sm:space-y-5 px-4 sm:px-6">
             <div>
-              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2">{t('secrets.your_secret_link')}</label>
-              <div className="flex gap-2">
+              <label className="block text-xs sm:text-sm font-mono font-semibold text-gray-700 mb-2">{t('secrets.your_secret_link')}</label>
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={secretUrl}
                   readOnly
-                  className="flex-1 p-3 font-mono text-sm bg-white border-2 border-green-200 rounded-md"
+                  className="flex-1 p-2 sm:p-3 font-mono text-xs sm:text-sm bg-white border-2 border-green-200 rounded-md break-all"
                 />
-                <Button onClick={copyToClipboard} className="bg-green-600 hover:bg-green-700 text-white px-4">
+                <Button onClick={copyToClipboard} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 sm:px-4 sm:py-3 whitespace-nowrap">
                   <Copy className="w-4 h-4" />
+                  <span className="ml-1 sm:hidden">Copy</span>
                 </Button>
               </div>
             </div>
 
-            <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
+            <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-3 sm:p-4">
               <div className="flex items-start gap-2">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
-                <div className="font-mono text-sm text-yellow-800">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-1 sm:mt-2 flex-shrink-0" />
+                <div className="font-mono text-xs sm:text-sm text-yellow-800">
                   <strong>{t('secrets.warning')}</strong> {t('secrets.warning_notice', { minutes: expiryMinutes })}
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 onClick={resetForm}
                 variant="outline"
-                className="flex-1 font-mono border-2 border-gray-300 hover:bg-gray-50 text-sm"
+                className="flex-1 font-mono border-2 border-gray-300 hover:bg-gray-50 text-xs sm:text-sm py-2 sm:py-3"
               >
                 {t('secrets.create_another')}
               </Button>
               <Link href="/dashboard/secrets" className="flex-1">
                 <Button
                   variant="outline"
-                  className="w-full font-mono border-2 border-green-300 hover:bg-green-50 text-sm"
+                  className="w-full font-mono border-2 border-green-300 hover:bg-green-50 text-xs sm:text-sm py-2 sm:py-3"
                 >
                   {t('secrets.view_all_secrets')}
                 </Button>

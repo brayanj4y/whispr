@@ -1,0 +1,234 @@
+"use client"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Copy, Send, Clock, Flame, ArrowLeft } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import Link from "next/link"
+
+export default function CreateSecret() {
+  const [message, setMessage] = useState("")
+  const [expiryMinutes, setExpiryMinutes] = useState("60")
+  const [isCreating, setIsCreating] = useState(false)
+  const [secretUrl, setSecretUrl] = useState("")
+  const { toast } = useToast()
+
+  const createSecret = async () => {
+    if (!message.trim()) {
+      toast({
+        title: "Empty message",
+        description: "Please enter a secret message first.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setIsCreating(true)
+    try {
+      const response = await fetch("/api/secrets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: message.trim(),
+          expiryMinutes: Number.parseInt(expiryMinutes),
+        }),
+      })
+
+      if (!response.ok) throw new Error("Failed to create secret")
+
+      const { id } = await response.json()
+      const url = `${window.location.origin}/secret/${id}`
+      setSecretUrl(url)
+      setMessage("")
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create secret message. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsCreating(false)
+    }
+  }
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(secretUrl)
+      toast({
+        title: "Copied!",
+        description: "Secret link copied to clipboard.",
+      })
+    } catch (error) {
+      toast({
+        title: "Copy failed",
+        description: "Please copy the link manually.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const resetForm = () => {
+    setSecretUrl("")
+    setMessage("")
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="mb-6 flex items-center gap-4">
+        <Link href="/dashboard/secrets">
+          <Button variant="outline" size="sm" className="font-mono text-xs">
+            <ArrowLeft className="w-3 h-3 mr-1" />
+            Back to Secrets
+          </Button>
+        </Link>
+        <div>
+          <h1 className="text-2xl font-bold font-mono text-gray-800 mb-1 flex items-center gap-2">
+            <Flame className="w-6 h-6" />
+            Create Secret Message
+          </h1>
+          <p className="text-sm text-gray-600 font-mono">Create a self-destructing message that burns after reading</p>
+        </div>
+      </div>
+
+      {!secretUrl ? (
+        /* Create Secret Form */
+        <Card className="bg-amber-50/80 border-2 border-orange-200 shadow-xl backdrop-blur-sm">
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl font-mono text-gray-800 flex items-center justify-center gap-2">
+              <Send className="w-5 h-5" />
+              Compose Your Secret
+            </CardTitle>
+            <CardDescription className="font-mono text-gray-600 text-sm">
+              Write your message. Once read, it burns forever.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            <div>
+              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2">Your Secret Message</label>
+              <Textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type your secret here... passwords, love notes, jokes, anything!"
+                className="min-h-32 font-mono text-base bg-white/80 border-2 border-orange-200 focus:border-orange-400 resize-none"
+                maxLength={1000}
+              />
+              <div className="text-right text-sm text-gray-500 font-mono mt-1">{message.length}/1000</div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                Auto-Delete Timer
+              </label>
+              <Select value={expiryMinutes} onValueChange={setExpiryMinutes}>
+                <SelectTrigger className="font-mono bg-white/80 border-2 border-orange-200">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10 minutes</SelectItem>
+                  <SelectItem value="30">30 minutes</SelectItem>
+                  <SelectItem value="60">1 hour</SelectItem>
+                  <SelectItem value="180">3 hours</SelectItem>
+                  <SelectItem value="720">12 hours</SelectItem>
+                  <SelectItem value="1440">24 hours</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-gray-500 font-mono mt-1">
+                Message will auto-delete after this time, even if unread
+              </p>
+            </div>
+
+            <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
+              <div className="flex items-start gap-2">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
+                <div className="font-mono text-sm text-yellow-800">
+                  <strong>Important:</strong> This secret will self-destruct after being read once OR after the timer
+                  expires - whichever comes first. Make sure your recipient is ready!
+                </div>
+              </div>
+            </div>
+
+            <Button
+              onClick={createSecret}
+              disabled={isCreating || !message.trim()}
+              className="w-full bg-orange-600 hover:bg-orange-700 text-white font-mono text-base py-5 transition-all duration-200 transform hover:scale-105"
+            >
+              {isCreating ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Creating Secret...
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Flame className="w-5 h-5" />
+                  Create Secret Link
+                </div>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+      ) : (
+        /* Secret Created */
+        <Card className="bg-green-50/80 border-2 border-green-200 shadow-xl backdrop-blur-sm">
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl font-mono text-green-800 flex items-center justify-center gap-2">
+              <Flame className="w-5 h-5" />
+              Secret Created Successfully!
+            </CardTitle>
+            <CardDescription className="font-mono text-green-600 text-sm">
+              Share this link carefully. It can only be opened once.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            <div>
+              <label className="block text-sm font-mono font-semibold text-gray-700 mb-2">Your Secret Link</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={secretUrl}
+                  readOnly
+                  className="flex-1 p-3 font-mono text-sm bg-white border-2 border-green-200 rounded-md"
+                />
+                <Button onClick={copyToClipboard} className="bg-green-600 hover:bg-green-700 text-white px-4">
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
+              <div className="flex items-start gap-2">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
+                <div className="font-mono text-sm text-yellow-800">
+                  <strong>Warning:</strong> This link will self-destruct after being opened once, or after{" "}
+                  {expiryMinutes} minutes - whichever comes first. The recipient should be ready to read it immediately.
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <Button
+                onClick={resetForm}
+                variant="outline"
+                className="flex-1 font-mono border-2 border-gray-300 hover:bg-gray-50 text-sm"
+              >
+                Create Another Secret
+              </Button>
+              <Link href="/dashboard/secrets" className="flex-1">
+                <Button
+                  variant="outline"
+                  className="w-full font-mono border-2 border-green-300 hover:bg-green-50 text-sm"
+                >
+                  View All Secrets
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  )
+}
